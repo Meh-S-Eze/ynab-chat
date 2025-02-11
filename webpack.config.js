@@ -1,8 +1,12 @@
-const path = require("path");
-const { VueLoaderPlugin } = require("vue-loader");
-const webpack = require("webpack");
+import path from "path";
+import { fileURLToPath } from 'url';
+import { VueLoaderPlugin } from "vue-loader";
+import webpack from "webpack";
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
   mode: process.env.NODE_ENV || 'development',
   entry: "./src/main.js",
   output: {
@@ -28,13 +32,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            sourceType: 'unambiguous'
-          }
-        }
+        use: 'babel-loader'
       },
       {
         test: /\.ts$/,
@@ -54,7 +52,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.json', '.ts'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
       'vue$': '@vue/runtime-dom'
@@ -65,9 +63,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: false,
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
-      }
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
   ],
 };
