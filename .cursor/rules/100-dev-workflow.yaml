@@ -3,6 +3,10 @@ name: "Development Workflow"
 category: "100-199"
 description: "Defines development processes and standards"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 development_environment:
   setup:
     - "Install Node.js (latest LTS version)"

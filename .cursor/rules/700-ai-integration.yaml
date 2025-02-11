@@ -3,6 +3,10 @@ name: "AI Integration"
 category: "700-799"
 description: "Standards for OpenAI chat integration"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 openai_integration:
   configuration:
     api_version: "Latest stable"
@@ -94,6 +98,10 @@ error_handling:
     - "Error logging"
 
 security:
+  note: "As this is a personal project, complex security measures are not required"
+  basic_requirements:
+    - "Store API key in .env file"
+    - "Basic error handling for failed requests"
   data_protection:
     - "Encrypt sensitive data"
     - "Sanitize user input"

@@ -3,6 +3,10 @@ name: "Vue.js Style Guide"
 category: "200-299"
 description: "Vue.js specific coding standards and best practices"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 component_structure:
   order:
     - "name"

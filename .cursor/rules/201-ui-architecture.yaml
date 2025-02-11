@@ -3,6 +3,10 @@ name: "UI Architecture"
 category: "200-299"
 description: "Defines UI components structure and data flow patterns"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 component_hierarchy:
   root:
     name: "App.vue"

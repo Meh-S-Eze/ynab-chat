@@ -1,0 +1,156 @@
+---
+name: "Agent Orchestration"
+category: "700-799"
+description: "Standards for multi-agent system architecture and data flow"
+
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
+agent_architecture:
+  conversation_agent:
+    name: "ConversationAgent"
+    purpose: "Handle user interactions and natural language processing"
+    responsibilities:
+      - "Process user queries and commands"
+      - "Maintain conversation context"
+      - "Route requests to appropriate agents"
+      - "Format responses for UI presentation"
+    state_management:
+      - "Active conversation context"
+      - "User preferences"
+      - "Recent interactions"
+      - "Command history"
+  
+  database_agent:
+    name: "DatabaseAgent"
+    purpose: "Handle all database CRUD operations"
+    responsibilities:
+      - "Execute database queries"
+      - "Maintain data consistency"
+      - "Handle transaction rollbacks"
+      - "Cache frequent queries"
+    operations:
+      - "Read transaction history"
+      - "Update budget categories"
+      - "Track sync status"
+      - "Store user preferences"
+  
+  ynab_agent:
+    name: "YNABAgent"
+    purpose: "Manage YNAB API interactions"
+    responsibilities:
+      - "Execute YNAB API calls"
+      - "Handle rate limiting"
+      - "Maintain OAuth tokens"
+      - "Track API quotas"
+    operations:
+      - "Fetch budget data"
+      - "Update transactions"
+      - "Sync categories"
+      - "Handle conflicts"
+
+data_flow:
+  synchronization:
+    trigger_points:
+      - name: "UI Sync Button"
+        location: "Navigation component"
+        actions:
+          - "Disable during sync"
+          - "Show progress indicator"
+          - "Display last sync time"
+    
+    process:
+      steps:
+        - name: "Initial DB Read"
+          agent: "DatabaseAgent"
+          action: "Fetch pending changes"
+        
+        - name: "YNAB Update"
+          agent: "YNABAgent"
+          action: "Push changes to YNAB"
+        
+        - name: "Confirmation"
+          agent: "ConversationAgent"
+          action: "Report sync status"
+
+  change_detection:
+    local_changes:
+      - "Track modified records"
+      - "Store change timestamps"
+      - "Maintain change queue"
+    
+    conflict_resolution:
+      - "Use YNAB as source of truth"
+      - "Log conflicting changes"
+      - "Notify user of conflicts"
+
+inter_agent_communication:
+  patterns:
+    - name: "Message Queue"
+      purpose: "Asynchronous task processing"
+      implementation: "Redis-backed queue"
+    
+    - name: "Event Bus"
+      purpose: "Real-time updates"
+      implementation: "WebSocket-based events"
+    
+    - name: "Direct Calls"
+      purpose: "Synchronous operations"
+      implementation: "Internal API endpoints"
+
+state_management:
+  shared_state:
+    - name: "SyncStatus"
+      access: "All agents"
+      properties:
+        - "lastSyncTime"
+        - "pendingChanges"
+        - "syncInProgress"
+    
+    - name: "UserContext"
+      access: "ConversationAgent, DatabaseAgent"
+      properties:
+        - "preferences"
+        - "activeSession"
+        - "permissions"
+
+error_handling:
+  strategies:
+    - name: "Retry with Backoff"
+      applies_to: ["YNAB API calls", "Database operations"]
+    
+    - name: "Circuit Breaker"
+      applies_to: ["External services", "Resource-intensive operations"]
+    
+    - name: "Fallback Responses"
+      applies_to: ["User interactions", "Data fetching"]
+
+monitoring:
+  metrics:
+    - name: "Agent Performance"
+      measurements:
+        - "Response times"
+        - "Error rates"
+        - "Queue lengths"
+    
+    - name: "Sync Statistics"
+      measurements:
+        - "Success rate"
+        - "Duration"
+        - "Conflict count"
+    
+    - name: "Resource Usage"
+      measurements:
+        - "Memory utilization"
+        - "API quota consumption"
+        - "Database connections"
+
+best_practices:
+  - "Implement idempotent operations"
+  - "Use transaction boundaries"
+  - "Maintain audit logs"
+  - "Handle partial failures"
+  - "Implement dead letter queues"
+  - "Monitor agent health"
+  - "Regular state cleanup" 

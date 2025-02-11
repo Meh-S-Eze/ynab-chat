@@ -3,6 +3,10 @@ name: "Backend Architecture"
 category: "600-699"
 description: "Standards for Express server and PostgreSQL integration"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 server_architecture:
   framework: "Express.js"
   structure:
@@ -61,16 +65,11 @@ database_connection:
     - "Query logging"
 
 security:
-  authentication:
-    - "JWT tokens"
-    - "Session management"
-    - "OAuth integration"
-  
-  data_protection:
-    - "Input validation"
-    - "SQL injection prevention"
-    - "XSS protection"
-    - "Rate limiting"
+  note: "As this is a personal project, complex security measures are not required"
+  basic_requirements:
+    - "Basic environment variable management"
+    - "Simple token storage"
+    - "Default Express security headers"
 
 error_handling:
   strategies:

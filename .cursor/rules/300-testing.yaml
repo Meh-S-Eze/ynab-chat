@@ -1,0 +1,213 @@
+---
+name: "Testing Strategy"
+category: "300-399"
+description: "Testing standards emphasizing real integrations over mocks"
+
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
+phase_specific_testing:
+  reference: "002-phased-development.yaml"
+  phase_requirements:
+    phase_1:
+      name: "Database Sync Foundation"
+      focus:
+        - "Real database operations with Neon DB"
+        - "Actual network conditions for sync"
+        - "Production-like error scenarios"
+      environment_setup:
+        - "Dedicated test database instance"
+        - "Monitoring tools configured"
+        - "Error injection capabilities"
+      success_metrics:
+        - "100% real database usage"
+        - "No mocked network calls"
+        - "Complete error coverage"
+
+    phase_2:
+      name: "Basic AI Chat"
+      focus:
+        - "Real OpenAI API integration"
+        - "Actual chat persistence"
+        - "Live WebSocket connections"
+      environment_setup:
+        - "Test OpenAI API key"
+        - "Dedicated chat history tables"
+        - "WebSocket test infrastructure"
+      success_metrics:
+        - "Real API response handling"
+        - "Actual streaming behavior"
+        - "True persistence verification"
+
+    phase_3:
+      name: "YNAB Integration"
+      focus:
+        - "Real YNAB API interactions"
+        - "Actual OAuth flows"
+        - "True conflict scenarios"
+      environment_setup:
+        - "Test YNAB budget"
+        - "OAuth test credentials"
+        - "Conflict simulation data"
+      success_metrics:
+        - "Real API synchronization"
+        - "Actual rate limit handling"
+        - "True conflict resolution"
+
+    phase_4:
+      name: "Enhanced Chat UI"
+      focus:
+        - "Real-time UI updates"
+        - "Actual markdown rendering"
+        - "True responsive behavior"
+      environment_setup:
+        - "Production-like data volume"
+        - "Various content types"
+        - "Multiple device profiles"
+      success_metrics:
+        - "Real performance metrics"
+        - "Actual UI responsiveness"
+        - "True accessibility compliance"
+
+    phase_5:
+      name: "Agentic Features"
+      focus:
+        - "Real agent interactions"
+        - "Actual message queuing"
+        - "True context management"
+      environment_setup:
+        - "Live Redis instance"
+        - "Vector DB for context"
+        - "Inter-agent communication"
+      success_metrics:
+        - "Real agent orchestration"
+        - "Actual context persistence"
+        - "True system reliability"
+
+    phase_6:
+      name: "Integration and Polish"
+      focus:
+        - "Complete system integration"
+        - "Real performance monitoring"
+        - "Actual security measures"
+      environment_setup:
+        - "Production-like environment"
+        - "Full monitoring stack"
+        - "Security testing tools"
+      success_metrics:
+        - "End-to-end workflow completion"
+        - "Real system performance"
+        - "True security compliance"
+
+testing_philosophy:
+  principles:
+    - name: "Real Integration Priority"
+      description: "Use real services over mocks whenever possible"
+      rationale: "Ensures tests reflect actual system behavior and catch integration issues early"
+    
+    - name: "Limited Mocking"
+      description: "Only mock what is absolutely necessary (e.g., third-party payment processing)"
+      exceptions:
+        - "Services with strict rate limits"
+        - "Paid third-party services in CI/CD"
+        - "External services with no test environment"
+
+  real_integrations:
+    required:
+      - name: "PostgreSQL Database"
+        approach: "Use test database instance on Neon"
+        reason: "Database behavior and performance are critical to application"
+      
+      - name: "YNAB API"
+        approach: "Use development API key with test budget"
+        reason: "API behavior and rate limits affect application logic"
+      
+      - name: "OpenAI Integration"
+        approach: "Use test API key with lower-tier models"
+        reason: "Response handling and token management are core features"
+
+test_environments:
+  development:
+    database: "Dedicated test database on Neon"
+    ynab: "Development API with test budget"
+    openai: "Test API key with GPT-3.5"
+  
+  staging:
+    database: "Staging database on Neon"
+    ynab: "Staging API with production-like data"
+    openai: "Staging API key with GPT-4"
+  
+  ci_cd:
+    database: "Ephemeral test database"
+    ynab: "CI/CD specific test budget"
+    openai: "CI/CD API key with GPT-3.5"
+
+test_types:
+  unit:
+    scope: "Individual functions and components"
+    mocking_policy: "Minimal - only for external network calls if necessary"
+    coverage_requirement: 80%
+  
+  integration:
+    scope: "Service interactions and data flow"
+    mocking_policy: "None - use real services"
+    coverage_requirement: 90%
+  
+  e2e:
+    scope: "Complete user workflows"
+    mocking_policy: "None - use real services"
+    coverage_requirement: 70%
+
+data_management:
+  test_data:
+    - "Use real-world-like data structures"
+    - "Maintain test budget in YNAB"
+    - "Regular test data refresh"
+    - "Version control test datasets"
+  
+  cleanup:
+    - "Clean test database between runs"
+    - "Reset test budget state"
+    - "Clear chat history"
+    - "Remove test transactions"
+
+performance_testing:
+  requirements:
+    - "Test with realistic data volumes"
+    - "Measure actual API latencies"
+    - "Monitor database query performance"
+    - "Track memory usage patterns"
+
+security_testing:
+  requirements:
+    - "Test with real API keys"
+    - "Verify token handling"
+    - "Check data encryption"
+    - "Validate access controls"
+
+error_handling:
+  scenarios:
+    - "Real API rate limits"
+    - "Network latency"
+    - "Database connection issues"
+    - "Concurrent operations"
+
+monitoring:
+  test_metrics:
+    - "Test execution time"
+    - "Integration success rates"
+    - "API call latencies"
+    - "Database operation timing"
+
+best_practices:
+  - "Always use real database for tests"
+  - "Maintain dedicated test YNAB budget"
+  - "Use actual API integrations"
+  - "Monitor API quotas during testing"
+  - "Version control test configurations"
+  - "Document test environment setup"
+  - "Regular integration testing"
+  - "Follow phase-specific testing requirements"
+  - "Ensure cross-phase testing consistency"
+  - "Maintain test environment parity" 

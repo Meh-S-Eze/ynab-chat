@@ -3,6 +3,10 @@ name: "Webpack Deployment Configuration"
 category: "500-599"
 description: "Standards for Webpack build and deployment process"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 webpack_configuration:
   entry_points:
     main: "./src/main.js"

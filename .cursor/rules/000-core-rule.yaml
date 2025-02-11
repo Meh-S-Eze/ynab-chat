@@ -2,6 +2,10 @@
 name: "Core Rule Index"
 description: "Central guide for all rules in the project"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 rule_organization:
   categories:
     - range: "000-099"
@@ -43,6 +47,12 @@ current_rules:
     purpose: "Define core project structure and organization"
     when_to_use: "When adding new files or directories"
     location: ".cursor/rules/001-project-structure.yaml"
+    category: "000-099"
+
+  - name: "002-phased-development"
+    purpose: "Define phased development strategy for feature implementation"
+    when_to_use: "When planning and implementing new features"
+    location: ".cursor/rules/002-phased-development.yaml"
     category: "000-099"
 
   - name: "100-dev-workflow"
@@ -93,11 +103,29 @@ current_rules:
     location: ".cursor/rules/700-ai-integration.yaml"
     category: "700-799"
 
+  - name: "701-agentic-search"
+    purpose: "Agentic web search and workflow analysis"
+    when_to_use: "When implementing or modifying web search and workflow discovery features"
+    location: ".cursor/rules/701-agentic-search.yaml"
+    category: "700-799"
+
+  - name: "702-agent-orchestration"
+    purpose: "Multi-agent system architecture and data flow"
+    when_to_use: "When working with agent interactions and data synchronization"
+    location: ".cursor/rules/702-agent-orchestration.yaml"
+    category: "700-799"
+
   - name: "900-ynab-integration"
     purpose: "YNAB API specific integration rules"
     when_to_use: "When working with YNAB API features"
     location: ".cursor/rules/900-ynab-integration.yaml"
     category: "900-999"
+
+  - name: "300-testing"
+    purpose: "Testing standards emphasizing real integrations over mocks"
+    when_to_use: "When writing tests or setting up test environments"
+    location: ".cursor/rules/300-testing.yaml"
+    category: "300-399"
 
 rule_creation_guide:
   steps:
@@ -137,6 +165,11 @@ project_state:
         - "OpenAI integration"
         - "Chat interface"
       status: "Planned"
+    - name: "Web Search"
+      components:
+        - "Search API integration"
+        - "Workflow discovery"
+      status: "Future Enhancement"
   key_features:
     - "YNAB API integration"
     - "Development server with hot reload"

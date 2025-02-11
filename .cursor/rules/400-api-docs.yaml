@@ -3,6 +3,10 @@ name: "YNAB API Documentation"
 category: "400-499"
 description: "Standards for YNAB API integration documentation"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 api_integration:
   authentication:
     - name: "Personal Access Token"

@@ -3,6 +3,10 @@ name: "YNAB API Integration"
 category: "900-999"
 description: "Standards for integrating with YNAB API"
 
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
 api_configuration:
   environment:
     - name: "YNAB_TOKEN"
@@ -80,17 +84,14 @@ data_management:
     - "Track server knowledge"
 
 security:
-  requirements:
-    - "Secure token storage"
-    - "HTTPS for all requests"
-    - "Validate server responses"
-    - "Implement token refresh"
+  note: "As this is a personal project, complex security measures are not required"
+  basic_requirements:
+    - "Store YNAB token in .env file"
+    - "Basic error handling for API calls"
   
   best_practices:
-    - "Never expose tokens in client"
-    - "Implement proper logout"
-    - "Clear sensitive data on exit"
-    - "Regular security audits"
+    - "Keep .env file in gitignore"
+    - "Handle basic API errors"
 
 performance:
   optimization:
