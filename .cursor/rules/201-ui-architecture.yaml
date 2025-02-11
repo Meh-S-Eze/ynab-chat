@@ -1,0 +1,144 @@
+---
+name: "UI Architecture"
+category: "200-299"
+description: "Defines UI components structure and data flow patterns"
+
+component_hierarchy:
+  root:
+    name: "App.vue"
+    purpose: "Root application component"
+    responsibilities:
+      - "OAuth authentication handling"
+      - "Global state management"
+      - "Main routing logic"
+    children:
+      - name: "Nav"
+        purpose: "Navigation component"
+        data_needs: ["authentication status"]
+      
+      - name: "Budgets"
+        purpose: "Budget selection and display"
+        data_needs: ["budgets list"]
+        api_dependencies: ["/budgets"]
+      
+      - name: "Transactions"
+        purpose: "Transaction management"
+        data_needs: ["transactions list", "budget_id"]
+        api_dependencies: ["/budgets/{budget_id}/transactions"]
+
+data_flow:
+  patterns:
+    - name: "Top-down props"
+      usage: "Pass data from parent to child components"
+      example: "Budget ID flowing from App to Transactions"
+    
+    - name: "Events up"
+      usage: "Child components notify parents of changes"
+      example: "Transaction component emits update events"
+    
+    - name: "Vuex store"
+      usage: "Global state management"
+      stored_data:
+        - "Authentication state"
+        - "Current budget"
+        - "User preferences"
+
+state_management:
+  local_state:
+    - component: "App"
+      manages:
+        - "Current route"
+        - "Authentication token"
+        - "Loading states"
+    
+    - component: "Budgets"
+      manages:
+        - "Selected budget"
+        - "Budget list cache"
+    
+    - component: "Transactions"
+      manages:
+        - "Transaction filters"
+        - "Pagination state"
+        - "Sort order"
+
+api_integration:
+  data_fetching:
+    pattern: "Fetch then render"
+    implementation:
+      - "Show loading state"
+      - "Make API request"
+      - "Handle errors"
+      - "Update local state"
+      - "Render updated UI"
+  
+  caching_strategy:
+    - "Cache budget list in memory"
+    - "Cache transactions per budget"
+    - "Implement cache invalidation"
+    - "Handle stale data scenarios"
+
+reactivity:
+  patterns:
+    - name: "Computed properties"
+      usage: "Derived data calculations"
+      examples:
+        - "Filtered transactions"
+        - "Budget summaries"
+        - "Category totals"
+    
+    - name: "Watchers"
+      usage: "Side effects on data changes"
+      examples:
+        - "Update URL on budget change"
+        - "Refresh data on filter change"
+        - "Save preferences on change"
+
+error_handling:
+  ui_feedback:
+    - "Loading indicators"
+    - "Error messages"
+    - "Empty states"
+    - "Retry mechanisms"
+  
+  error_boundaries:
+    - "Component level error catching"
+    - "Global error handler"
+    - "Fallback UI components"
+
+performance:
+  optimizations:
+    - "Lazy loading routes"
+    - "Virtual scrolling for long lists"
+    - "Debounced search inputs"
+    - "Cached API responses"
+    - "Optimistic UI updates"
+
+accessibility:
+  requirements:
+    - "ARIA labels"
+    - "Keyboard navigation"
+    - "Screen reader support"
+    - "Color contrast compliance"
+    - "Focus management"
+
+responsive_design:
+  breakpoints:
+    mobile: "< 768px"
+    tablet: "768px - 1024px"
+    desktop: "> 1024px"
+  
+  strategies:
+    - "Mobile-first approach"
+    - "Flexible grid layouts"
+    - "Responsive typography"
+    - "Adaptive content"
+
+best_practices:
+  - "Keep components focused and single-purpose"
+  - "Implement proper loading states"
+  - "Handle all error cases"
+  - "Cache API responses appropriately"
+  - "Use computed properties for derived data"
+  - "Implement proper accessibility features"
+  - "Follow responsive design principles" 

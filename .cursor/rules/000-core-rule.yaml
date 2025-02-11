@@ -51,6 +51,12 @@ current_rules:
     location: ".cursor/rules/200-vue-style.yaml"
     category: "200-299"
 
+  - name: "201-ui-architecture"
+    purpose: "Define UI component hierarchy and data flow"
+    when_to_use: "When working on UI components or data management"
+    location: ".cursor/rules/201-ui-architecture.yaml"
+    category: "200-299"
+
   - name: "400-api-docs"
     purpose: "YNAB API integration documentation standards"
     when_to_use: "When working with YNAB API endpoints"
