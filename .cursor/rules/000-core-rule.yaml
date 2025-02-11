@@ -22,6 +22,12 @@ rule_organization:
     - range: "500-599"
       name: "Deployment rules"
       description: "Deployment and release processes"
+    - range: "600-699"
+      name: "Backend architecture rules"
+      description: "Express server and PostgreSQL database standards"
+    - range: "700-799"
+      name: "AI integration rules"
+      description: "OpenAI integration and chat functionality"
     - range: "900-999"
       name: "Project-specific custom rules"
       description: "Rules specific to YNAB API integration"
@@ -69,6 +75,24 @@ current_rules:
     location: ".cursor/rules/500-webpack-deploy.yaml"
     category: "500-599"
 
+  - name: "600-backend-architecture"
+    purpose: "Express and PostgreSQL architecture standards"
+    when_to_use: "When working on backend features"
+    location: ".cursor/rules/600-backend-architecture.yaml"
+    category: "600-699"
+
+  - name: "601-database-schema"
+    purpose: "PostgreSQL database schema and migrations"
+    when_to_use: "When modifying database structure"
+    location: ".cursor/rules/601-database-schema.yaml"
+    category: "600-699"
+
+  - name: "700-ai-integration"
+    purpose: "OpenAI chat integration standards"
+    when_to_use: "When working with AI features"
+    location: ".cursor/rules/700-ai-integration.yaml"
+    category: "700-799"
+
   - name: "900-ynab-integration"
     purpose: "YNAB API specific integration rules"
     when_to_use: "When working with YNAB API features"
@@ -102,6 +126,17 @@ project_state:
   key_dependencies:
     - "ynab: ^2.2.0"
     - "vue: ^3.4.5"
+  future_integrations:
+    - name: "Backend"
+      components:
+        - "Express server"
+        - "PostgreSQL on Replit"
+      status: "Planned"
+    - name: "AI Chat"
+      components:
+        - "OpenAI integration"
+        - "Chat interface"
+      status: "Planned"
   key_features:
     - "YNAB API integration"
     - "Development server with hot reload"

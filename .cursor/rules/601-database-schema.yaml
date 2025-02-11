@@ -1,0 +1,137 @@
+---
+name: "Database Schema"
+category: "600-699"
+description: "PostgreSQL database schema and migration standards"
+
+schema_design:
+  tables:
+    users:
+      description: "User account information"
+      columns:
+        - name: "id"
+          type: "UUID"
+          constraints: ["PRIMARY KEY"]
+        - name: "email"
+          type: "VARCHAR(255)"
+          constraints: ["UNIQUE", "NOT NULL"]
+        - name: "created_at"
+          type: "TIMESTAMP"
+          constraints: ["NOT NULL", "DEFAULT NOW()"]
+        - name: "updated_at"
+          type: "TIMESTAMP"
+          constraints: ["NOT NULL", "DEFAULT NOW()"]
+    
+    chat_sessions:
+      description: "AI chat session records"
+      columns:
+        - name: "id"
+          type: "UUID"
+          constraints: ["PRIMARY KEY"]
+        - name: "user_id"
+          type: "UUID"
+          constraints: ["REFERENCES users(id)"]
+        - name: "created_at"
+          type: "TIMESTAMP"
+          constraints: ["NOT NULL", "DEFAULT NOW()"]
+    
+    chat_messages:
+      description: "Individual chat messages"
+      columns:
+        - name: "id"
+          type: "UUID"
+          constraints: ["PRIMARY KEY"]
+        - name: "session_id"
+          type: "UUID"
+          constraints: ["REFERENCES chat_sessions(id)"]
+        - name: "content"
+          type: "TEXT"
+          constraints: ["NOT NULL"]
+        - name: "role"
+          type: "VARCHAR(50)"
+          constraints: ["NOT NULL"]
+        - name: "created_at"
+          type: "TIMESTAMP"
+          constraints: ["NOT NULL", "DEFAULT NOW()"]
+
+migrations:
+  tools:
+    name: "node-pg-migrate"
+    location: "migrations/"
+  
+  naming:
+    format: "YYYYMMDDHHMMSS_descriptive_name"
+    example: "20240211000000_create_users_table"
+  
+  structure:
+    - "up: Changes to apply"
+    - "down: How to reverse changes"
+    - "Clear documentation"
+    - "Transaction wrapping"
+
+indexes:
+  conventions:
+    - "Index foreign keys"
+    - "Index frequently queried columns"
+    - "Consider partial indexes"
+    - "Monitor index usage"
+  
+  examples:
+    - name: "idx_chat_messages_session"
+      table: "chat_messages"
+      columns: ["session_id"]
+    
+    - name: "idx_chat_sessions_user"
+      table: "chat_sessions"
+      columns: ["user_id"]
+
+constraints:
+  naming:
+    format: "fk_[table]_[referenced_table]"
+    example: "fk_chat_messages_chat_sessions"
+  
+  types:
+    - "Foreign key constraints"
+    - "Unique constraints"
+    - "Check constraints"
+    - "Not null constraints"
+
+data_types:
+  preferences:
+    - "Use UUID for IDs"
+    - "TIMESTAMP with timezone"
+    - "VARCHAR with length limits"
+    - "TEXT for unlimited strings"
+    - "JSONB for flexible data"
+
+backup_strategy:
+  frequency:
+    - "Daily full backups"
+    - "Hourly incremental backups"
+    - "Transaction log shipping"
+  
+  retention:
+    - "Keep daily backups for 30 days"
+    - "Keep monthly backups for 1 year"
+    - "Verify backup integrity"
+
+maintenance:
+  tasks:
+    - "Regular VACUUM"
+    - "Update statistics"
+    - "Monitor table bloat"
+    - "Index maintenance"
+  
+  monitoring:
+    - "Query performance"
+    - "Table sizes"
+    - "Index usage"
+    - "Lock contention"
+
+best_practices:
+  - "Use migrations for all changes"
+  - "Version control migrations"
+  - "Test migrations thoroughly"
+  - "Document schema changes"
+  - "Regular backups"
+  - "Monitor performance"
+  - "Use appropriate indexes" 
