@@ -1,0 +1,115 @@
+---
+name: "YNAB API Integration"
+category: "900-999"
+description: "Standards for integrating with YNAB API"
+
+api_configuration:
+  environment:
+    - name: "YNAB_TOKEN"
+      type: "string"
+      storage: ".env"
+      required: true
+      description: "Personal access token for YNAB API"
+    
+    - name: "YNAB_CLIENT_ID"
+      type: "string"
+      storage: ".env"
+      required: true
+      description: "OAuth client ID for YNAB API"
+
+authentication:
+  methods:
+    personal_token:
+      usage: "Development and testing"
+      setup:
+        - "Generate token in YNAB settings"
+        - "Store in .env file"
+        - "Never commit tokens"
+    
+    oauth:
+      usage: "Production applications"
+      flow:
+        - "Redirect to YNAB authorization"
+        - "Handle callback with code"
+        - "Exchange code for token"
+        - "Store token securely"
+
+api_endpoints:
+  budgets:
+    - endpoint: "/budgets"
+      methods: ["GET"]
+      purpose: "List user budgets"
+    
+    - endpoint: "/budgets/{budget_id}"
+      methods: ["GET"]
+      purpose: "Get single budget"
+  
+  transactions:
+    - endpoint: "/budgets/{budget_id}/transactions"
+      methods: ["GET", "POST"]
+      purpose: "List and create transactions"
+    
+    - endpoint: "/budgets/{budget_id}/transactions/{transaction_id}"
+      methods: ["GET", "PUT", "DELETE"]
+      purpose: "Manage single transaction"
+
+error_handling:
+  strategies:
+    - "Implement exponential backoff"
+    - "Handle rate limits gracefully"
+    - "Log API errors appropriately"
+    - "Provide user-friendly error messages"
+  
+  common_errors:
+    401: "Authentication failed"
+    403: "Insufficient permissions"
+    404: "Resource not found"
+    429: "Rate limit exceeded"
+
+data_management:
+  caching:
+    - "Cache budget data appropriately"
+    - "Implement cache invalidation"
+    - "Use local storage when appropriate"
+    - "Handle stale data scenarios"
+  
+  sync:
+    - "Implement delta updates"
+    - "Handle conflict resolution"
+    - "Maintain data consistency"
+    - "Track server knowledge"
+
+security:
+  requirements:
+    - "Secure token storage"
+    - "HTTPS for all requests"
+    - "Validate server responses"
+    - "Implement token refresh"
+  
+  best_practices:
+    - "Never expose tokens in client"
+    - "Implement proper logout"
+    - "Clear sensitive data on exit"
+    - "Regular security audits"
+
+performance:
+  optimization:
+    - "Minimize API calls"
+    - "Implement request batching"
+    - "Use appropriate polling intervals"
+    - "Optimize payload size"
+
+testing:
+  requirements:
+    - "Mock API responses"
+    - "Test error scenarios"
+    - "Validate data integrity"
+    - "Test rate limit handling"
+
+best_practices:
+  - "Follow YNAB API guidelines"
+  - "Implement proper error handling"
+  - "Maintain API version compatibility"
+  - "Document API usage"
+  - "Regular integration testing"
+  - "Monitor API health" 

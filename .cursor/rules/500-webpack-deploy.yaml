@@ -1,0 +1,104 @@
+---
+name: "Webpack Deployment Configuration"
+category: "500-599"
+description: "Standards for Webpack build and deployment process"
+
+webpack_configuration:
+  entry_points:
+    main: "./src/main.js"
+    options:
+      - "Use single entry point for simpler apps"
+      - "Configure multiple entry points for code splitting"
+  
+  output:
+    path: "./dist"
+    filename: "build.js"
+    public_path: "/dist/"
+    rules:
+      - "Use content hashing for cache busting"
+      - "Configure public path for production"
+      - "Optimize output for production"
+
+build_modes:
+  development:
+    features:
+      - "Source maps enabled"
+      - "Hot module replacement"
+      - "No minification"
+      - "Development server"
+    command: "npm start"
+  
+  production:
+    features:
+      - "Code minification"
+      - "Tree shaking"
+      - "Asset optimization"
+      - "Production source maps"
+    command: "npm run build"
+
+loaders:
+  vue:
+    loader: "vue-loader"
+    options:
+      - "Configure for Vue 3"
+      - "Enable hot reload"
+      - "Optimize template compilation"
+  
+  css:
+    loader: "css-loader"
+    options:
+      - "Enable modules"
+      - "Configure postcss"
+      - "Optimize for production"
+
+plugins:
+  required:
+    - name: "VueLoaderPlugin"
+      purpose: "Handle Vue single-file components"
+    
+    - name: "DefinePlugin"
+      purpose: "Define environment variables"
+      config: |
+        new webpack.DefinePlugin({
+          __VUE_PROD_DEVTOOLS__: false
+        })
+
+optimization:
+  production:
+    - "Enable minification"
+    - "Configure code splitting"
+    - "Optimize module concatenation"
+    - "Enable tree shaking"
+  
+  caching:
+    - "Use content hashing"
+    - "Configure runtime chunks"
+    - "Optimize module IDs"
+
+deployment:
+  process:
+    - "Run production build"
+    - "Verify build output"
+    - "Deploy to hosting platform"
+    - "Verify deployment"
+  
+  checklist:
+    - "Environment variables set"
+    - "Production optimizations enabled"
+    - "Assets properly referenced"
+    - "Cache headers configured"
+
+monitoring:
+  requirements:
+    - "Track build sizes"
+    - "Monitor performance metrics"
+    - "Check for errors"
+    - "Verify asset loading"
+
+best_practices:
+  - "Keep webpack config modular"
+  - "Use environment variables"
+  - "Optimize for production"
+  - "Monitor build sizes"
+  - "Regular dependency updates"
+  - "Document build process" 

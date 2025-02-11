@@ -1,0 +1,103 @@
+---
+name: "YNAB API Documentation"
+category: "400-499"
+description: "Standards for YNAB API integration documentation"
+
+api_integration:
+  authentication:
+    - name: "Personal Access Token"
+      description: "Used for API authentication"
+      storage: "Store in .env file"
+      format: "YNAB_TOKEN=your_token_here"
+    
+    - name: "OAuth Flow"
+      description: "Used for user authentication"
+      implementation: "Follow YNAB OAuth documentation"
+      scopes: "Request minimum necessary permissions"
+
+endpoints:
+  documentation:
+    format:
+      - "Document endpoint purpose"
+      - "List required parameters"
+      - "Show example requests and responses"
+      - "Note rate limits and constraints"
+    
+    template: |
+      /**
+       * @endpoint {METHOD} /path/to/endpoint
+       * @description Purpose of the endpoint
+       * @params {type} name - Description
+       * @returns {type} Description of response
+       * @example
+       *   Request: {...}
+       *   Response: {...}
+       */
+
+error_handling:
+  documentation:
+    - "Document all possible error codes"
+    - "Provide error recovery steps"
+    - "Include troubleshooting guides"
+    - "Document rate limit handling"
+
+data_models:
+  requirements:
+    - "Document all data models used"
+    - "Include type definitions"
+    - "Document relationships between models"
+    - "Note required vs optional fields"
+  
+  example: |
+    /**
+     * @typedef {Object} Budget
+     * @property {string} id - Budget ID
+     * @property {string} name - Budget name
+     * @property {Date} last_modified - Last modification date
+     */
+
+code_examples:
+  format:
+    - "Provide clear, concise examples"
+    - "Include common use cases"
+    - "Show error handling"
+    - "Comment complex logic"
+  
+  template: |
+    ```javascript
+    // Example code with comments
+    try {
+      // Code here
+    } catch (error) {
+      // Error handling
+    }
+    ```
+
+versioning:
+  documentation:
+    - "Note API version compatibility"
+    - "Document breaking changes"
+    - "Maintain changelog"
+    - "Include upgrade guides"
+
+security:
+  documentation:
+    - "Document security best practices"
+    - "Explain token handling"
+    - "Note data privacy considerations"
+    - "Include security warnings"
+
+testing:
+  documentation:
+    - "Document test requirements"
+    - "Include test examples"
+    - "Cover error scenarios"
+    - "Document mocking approaches"
+
+best_practices:
+  - "Keep documentation up to date"
+  - "Use consistent formatting"
+  - "Include practical examples"
+  - "Document rate limits"
+  - "Reference official YNAB API docs"
+  - "Include troubleshooting guides" 

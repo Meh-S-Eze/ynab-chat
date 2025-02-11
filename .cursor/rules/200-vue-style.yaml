@@ -1,0 +1,94 @@
+---
+name: "Vue.js Style Guide"
+category: "200-299"
+description: "Vue.js specific coding standards and best practices"
+
+component_structure:
+  order:
+    - "name"
+    - "components"
+    - "props"
+    - "data()"
+    - "computed"
+    - "methods"
+    - "watch"
+    - "lifecycle hooks"
+    - "template"
+
+naming_conventions:
+  components:
+    - "Use PascalCase for component names"
+    - "Use kebab-case for custom elements in template"
+    - "Use descriptive, multi-word names"
+  
+  props:
+    - "Use camelCase for prop names"
+    - "Be descriptive and specific"
+    - "Include type and default value"
+  
+  events:
+    - "Use kebab-case for event names"
+    - "Prefix with 'on' in handlers"
+    - "Be descriptive about the action"
+
+template_style:
+  rules:
+    - "Use double quotes for attributes"
+    - "Use shorthand when possible (:prop instead of v-bind:prop)"
+    - "Use @ instead of v-on for events"
+    - "Keep templates simple and readable"
+    - "Extract complex logic to computed properties"
+  
+  order:
+    - "v-if/v-show directives"
+    - "v-for directives"
+    - "v-model bindings"
+    - "Other v-directives"
+    - "Regular attributes"
+    - "Event handlers"
+
+script_style:
+  data:
+    - "Return new object from data()"
+    - "Initialize all properties"
+    - "Use descriptive variable names"
+  
+  props:
+    - "Define type for all props"
+    - "Use default values when appropriate"
+    - "Document required props"
+    - "Validate prop values"
+  
+  methods:
+    - "Use arrow functions for callbacks"
+    - "Keep methods focused and single-purpose"
+    - "Use descriptive method names"
+    - "Document complex methods"
+
+composition_api:
+  setup:
+    - "Use setup() for Composition API"
+    - "Define refs and reactive state first"
+    - "Group related functionality"
+    - "Export composables for reuse"
+  
+  lifecycle:
+    - "Use onMounted for initialization"
+    - "Clean up in onUnmounted"
+    - "Use watch and watchEffect appropriately"
+
+performance:
+  optimization:
+    - "Use v-show for frequent toggles"
+    - "Use v-if for conditional rendering"
+    - "Key dynamic components"
+    - "Avoid expensive operations in computed properties"
+    - "Use async components for code splitting"
+
+best_practices:
+  - "Keep components small and focused"
+  - "Use props for component communication"
+  - "Emit events for parent communication"
+  - "Document complex logic"
+  - "Use TypeScript for better type safety"
+  - "Follow Vue.js official style guide" 

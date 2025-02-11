@@ -1,0 +1,87 @@
+---
+name: "Development Workflow"
+category: "100-199"
+description: "Defines development processes and standards"
+
+development_environment:
+  setup:
+    - "Install Node.js (latest LTS version)"
+    - "Clone repository"
+    - "Run npm install"
+    - "Copy .env.example to .env (if exists)"
+    - "Configure YNAB API credentials"
+
+development_server:
+  commands:
+    start: "npm start"
+    build: "npm run build"
+  features:
+    - "Hot module replacement"
+    - "Development mode with source maps"
+    - "Automatic browser refresh"
+
+git_workflow:
+  branching:
+    main: "Production-ready code"
+    development: "Integration branch for features"
+    feature: "Feature-specific branches (feature/*)"
+    hotfix: "Emergency fixes (hotfix/*)"
+  
+  commit_standards:
+    format: "<type>(<scope>): <description>"
+    types:
+      - "feat: New features"
+      - "fix: Bug fixes"
+      - "docs: Documentation changes"
+      - "style: Code style changes"
+      - "refactor: Code refactoring"
+      - "test: Test changes"
+      - "chore: Build/dependency changes"
+    
+    rules:
+      - "Use present tense in commit messages"
+      - "Keep commits focused and atomic"
+      - "Reference issues in commit messages"
+      - "Include BREAKING CHANGE in footer if applicable"
+
+code_review:
+  process:
+    - "Create pull request with description"
+    - "Link related issues"
+    - "Request review from team members"
+    - "Address review comments"
+    - "Squash and merge when approved"
+  
+  checklist:
+    - "Code follows style guide"
+    - "Tests are included"
+    - "Documentation is updated"
+    - "No unnecessary dependencies added"
+    - "Performance impact considered"
+
+dependency_management:
+  updating:
+    - "Regularly check for updates (npm outdated)"
+    - "Update dependencies one at a time"
+    - "Test thoroughly after updates"
+    - "Keep package-lock.json in sync"
+  
+  security:
+    - "Run security audits (npm audit)"
+    - "Fix security vulnerabilities promptly"
+    - "Review dependency licenses"
+
+troubleshooting:
+  steps:
+    - "Check console for errors"
+    - "Verify environment variables"
+    - "Check dependency versions"
+    - "Review recent changes"
+    - "Test in clean environment"
+
+best_practices:
+  - "Write descriptive commit messages"
+  - "Keep dependencies up to date"
+  - "Document significant changes"
+  - "Use feature flags for major changes"
+  - "Follow semantic versioning" 

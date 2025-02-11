@@ -1,0 +1,72 @@
+---
+name: "Project Structure"
+category: "000-099"
+description: "Defines the core project structure and organization standards"
+
+directory_structure:
+  root:
+    - name: "src/"
+      purpose: "Source code directory"
+      contents:
+        - "components/: Vue components"
+        - "App.vue: Root Vue component"
+        - "main.js: Application entry point"
+        - "config.json: Application configuration"
+    
+    - name: "public/"
+      purpose: "Static assets and HTML template"
+      contents:
+        - "index.html: Main HTML template"
+        - "Static assets (images, fonts, etc.)"
+    
+    - name: "bin/"
+      purpose: "CLI and utility scripts"
+      contents:
+        - "start.js: Project initialization script"
+
+    - name: ".cursor/"
+      purpose: "Project rules and automation"
+      contents:
+        - "rules/: Project rule definitions"
+
+    - name: ".github/"
+      purpose: "GitHub specific configuration"
+      contents:
+        - "workflows/: GitHub Actions definitions"
+
+file_naming:
+  conventions:
+    - "Use lowercase for all files and directories"
+    - "Use hyphens (-) to separate words in filenames"
+    - "Vue components should use PascalCase .vue extension"
+    - "Configuration files should use appropriate extensions (.json, .yaml, etc.)"
+
+component_organization:
+  structure:
+    - "Group related components in subdirectories"
+    - "Keep component names descriptive and specific"
+    - "Use index.js files for directory exports"
+
+configuration_files:
+  required:
+    - "package.json: Project dependencies and scripts"
+    - "webpack.config.js: Build configuration"
+    - ".env: Environment variables (gitignored)"
+    - ".gitignore: Git ignore patterns"
+    - ".editorconfig: Editor configuration"
+    - "README.md: Project documentation"
+    - "LICENSE.md: Project license"
+
+dependencies:
+  rules:
+    - "All dependencies must be listed in package.json"
+    - "Lock files (package-lock.json) must be committed"
+    - "Development dependencies should be in devDependencies"
+    - "Version numbers should be specified with caret (^)"
+
+best_practices:
+  - "Keep directory structure flat where possible"
+  - "Group related files together"
+  - "Separate concerns between directories"
+  - "Use appropriate gitignore patterns"
+  - "Maintain clear separation between source and build files" 

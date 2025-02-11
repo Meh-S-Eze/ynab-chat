@@ -1,33 +1,102 @@
-# Core Rule Index
-# This file serves as a central guide for all rules in the project.
+---
+name: "Core Rule Index"
+description: "Central guide for all rules in the project"
 
-## Rule Organization
-Rules are organized by their prefix numbers:
-- 000-099: Core and meta rules
-- 100-199: Development workflow rules
-- 200-299: Code style and formatting rules
-- 300-399: Testing rules
-- 400-499: Documentation rules
-- 500-599: Deployment rules
-- 900-999: Project-specific custom rules
+rule_organization:
+  categories:
+    - range: "000-099"
+      name: "Core and meta rules"
+      description: "Foundational rules for project organization and management"
+    - range: "100-199"
+      name: "Development workflow rules"
+      description: "Rules for development process and tooling"
+    - range: "200-299"
+      name: "Code style and formatting rules"
+      description: "Standards for code formatting and style"
+    - range: "300-399"
+      name: "Testing rules"
+      description: "Testing standards and practices"
+    - range: "400-499"
+      name: "Documentation rules"
+      description: "Documentation requirements and standards"
+    - range: "500-599"
+      name: "Deployment rules"
+      description: "Deployment and release processes"
+    - range: "900-999"
+      name: "Project-specific custom rules"
+      description: "Rules specific to YNAB API integration"
 
-## Current Rules
-1. start rule
-   - Purpose: Initial setup and configuration
-   - When to use: When setting up the project for the first time
-   - Location: .cursor/rules/start rule
+current_rules:
+  - name: "start rule"
+    purpose: "Initial setup and configuration"
+    when_to_use: "When setting up the project for the first time"
+    location: ".cursor/rules/start rule"
+    category: "000-099"
 
-## How to Add New Rules
-1. Choose an appropriate number prefix based on the category
-2. Create a new file in .cursor/rules/
-3. Add an entry in this core rule file with:
-   - Purpose
-   - When to use
-   - Location
-   - Any dependencies or prerequisites
+  - name: "001-project-structure"
+    purpose: "Define core project structure and organization"
+    when_to_use: "When adding new files or directories"
+    location: ".cursor/rules/001-project-structure.yaml"
+    category: "000-099"
 
-## Best Practices
-- Always update this index when adding new rules
-- Keep rule names descriptive and lowercase
-- Include detailed comments within each rule file
-- Cross-reference related rules when relevant 
+  - name: "100-dev-workflow"
+    purpose: "Define development workflow and processes"
+    when_to_use: "During development activities"
+    location: ".cursor/rules/100-dev-workflow.yaml"
+    category: "100-199"
+    
+  - name: "200-vue-style"
+    purpose: "Vue.js specific coding standards"
+    when_to_use: "When writing or modifying Vue components"
+    location: ".cursor/rules/200-vue-style.yaml"
+    category: "200-299"
+
+  - name: "400-api-docs"
+    purpose: "YNAB API integration documentation standards"
+    when_to_use: "When working with YNAB API endpoints"
+    location: ".cursor/rules/400-api-docs.yaml"
+    category: "400-499"
+
+  - name: "500-webpack-deploy"
+    purpose: "Webpack build and deployment configuration"
+    when_to_use: "When modifying build process or deploying"
+    location: ".cursor/rules/500-webpack-deploy.yaml"
+    category: "500-599"
+
+  - name: "900-ynab-integration"
+    purpose: "YNAB API specific integration rules"
+    when_to_use: "When working with YNAB API features"
+    location: ".cursor/rules/900-ynab-integration.yaml"
+    category: "900-999"
+
+rule_creation_guide:
+  steps:
+    - "Choose an appropriate number prefix based on the category"
+    - "Create a new file in .cursor/rules/"
+    - "Add an entry in this core rule file"
+  required_fields:
+    - "Purpose"
+    - "When to use"
+    - "Location"
+    - "Dependencies or prerequisites"
+    - "Category"
+
+best_practices:
+  - "Always update this index when adding new rules"
+  - "Keep rule names descriptive and lowercase"
+  - "Include detailed comments within each rule file"
+  - "Cross-reference related rules when relevant"
+  - "Use .yaml extension for all rule files"
+  - "Follow the category numbering system strictly"
+
+project_state:
+  framework: "Vue.js 3"
+  build_tool: "Webpack 5"
+  package_manager: "npm"
+  key_dependencies:
+    - "ynab: ^2.2.0"
+    - "vue: ^3.4.5"
+  key_features:
+    - "YNAB API integration"
+    - "Development server with hot reload"
+    - "Production build optimization" 
