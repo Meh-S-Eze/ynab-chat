@@ -1,0 +1,33 @@
+# Core Rule Index
+# This file serves as a central guide for all rules in the project.
+
+## Rule Organization
+Rules are organized by their prefix numbers:
+- 000-099: Core and meta rules
+- 100-199: Development workflow rules
+- 200-299: Code style and formatting rules
+- 300-399: Testing rules
+- 400-499: Documentation rules
+- 500-599: Deployment rules
+- 900-999: Project-specific custom rules
+
+## Current Rules
+1. start rule
+   - Purpose: Initial setup and configuration
+   - When to use: When setting up the project for the first time
+   - Location: .cursor/rules/start rule
+
+## How to Add New Rules
+1. Choose an appropriate number prefix based on the category
+2. Create a new file in .cursor/rules/
+3. Add an entry in this core rule file with:
+   - Purpose
+   - When to use
+   - Location
+   - Any dependencies or prerequisites
+
+## Best Practices
+- Always update this index when adding new rules
+- Keep rule names descriptive and lowercase
+- Include detailed comments within each rule file
+- Cross-reference related rules when relevant 
