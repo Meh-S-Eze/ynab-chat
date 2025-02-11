@@ -1,4 +1,4 @@
-import { API, GetTransactionsTypeEnum } from 'ynab';
+import { API } from 'ynab';
 import { backOff } from 'exponential-backoff';
 import logger from '../utils/logger';
 import { YNABTransaction, YNABBudget, SyncResult, ServerKnowledge } from '../types/ynab';
@@ -39,7 +39,7 @@ export class YNABService {
         this.api.transactions.getTransactions(
           budgetId,
           sinceDateStr,
-          knowledge ? GetTransactionsTypeEnum.Since : undefined
+          undefined // Remove the enum usage as it's not needed for server knowledge
         )
       );
 
