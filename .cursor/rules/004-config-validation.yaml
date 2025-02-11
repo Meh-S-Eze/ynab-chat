@@ -1,61 +1,78 @@
 ---
 name: "Configuration Validation"
 category: "000-099"
-description: "Standards for preventing module system and environment conflicts"
+description: "Standards for validating project configuration"
 
-prevention_measures:
-  module_system:
-    rule: "All configuration files must use ES module syntax"
-    enforcement:
-      - "Use .js extension with package.json 'type': 'module'"
-      - "Convert legacy CommonJS files to .cjs when necessary"
-      - "Use import/export syntax exclusively in .js files"
-  
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements."
+
+validation_requirements:
   node_version:
-    requirement: "Node.js >=20.x"
-    enforcement:
-      - "Engine constraint in package.json"
-      - "nvmrc file with version specification"
-      - "CI pipeline version checks"
+    minimum: "20.x"
+    validation:
+      - "Check process.versions.node"
+      - "Verify package.json engines field"
+      - "Ensure tsconfig.json targets ES2020+"
 
-  webpack_config:
-    standards:
-      - "Use import.meta.url for path resolution"
-      - "Define process.env.NODE_ENV once in config"
-      - "Explicit extension resolution order"
-    validation_script: "npm run validate:config"
+  module_system:
+    type: "ES Modules"
+    requirements:
+      - "package.json type: module"
+      - "ESM import/export syntax"
+      - "import.meta.url for paths"
+    files:
+      - name: "webpack.config.js"
+        format: "ESM"
+        requirements:
+          - "export default configuration"
+          - "import.meta.url for paths"
+          - "proper module resolution"
+      
+      - name: "tsconfig.json"
+        format: "JSON"
+        requirements:
+          - "module: ESNext"
+          - "moduleResolution: bundler"
+          - "esm: true in ts-node config"
 
-validation_scripts:
-  config_check: 
-    filename: "scripts/validate-config.ts"
-    checks:
-      - "ES module usage in .js files"
-      - "Node.js version compatibility"
-      - "Webpack alias consistency"
-      - "Babel preset configuration"
+  babel_config:
+    format: ".babelrc.json"
+    requirements:
+      - "ES module support"
+      - "TypeScript support"
+      - "Vue 3 compatibility"
 
-required_updates:
-  package.json:
-    additions:
-      - name: "engine-strict"
-        value: "true"
-      - name: "engines"
-        value: |
-          {
-            "node": ">=20.0.0",
-            "npm": ">=10.0.0"
-          }
-    scripts:
-      - "validate:config": "ts-node scripts/validate-config.ts"
+validation_script:
+  path: "scripts/validate-config.ts"
+  checks:
+    - "Node.js version ≥20.x"
+    - "ES module configuration"
+    - "Webpack config format"
+    - "Babel config presence"
+    - "Package.json settings"
+  exit_codes:
+    0: "All checks passed"
+    1: "Validation failed"
+
+error_handling:
+  strategy:
+    - "Detailed error messages"
+    - "Specific validation failures"
+    - "Clear resolution steps"
+  logging:
+    - "Validation progress"
+    - "Failed checks"
+    - "Configuration state"
 
 best_practices:
-  - "Always use fileURLToPath for directory resolution in ES modules"
-  - "Run validation scripts before committing"
-  - "Verify Node version in CI pipelines"
-  - "Use .babelrc.json instead of .js config files"
-  - "Maintain single source of truth for NODE_ENV"
+  - "Run validation before commits"
+  - "Keep configuration files in sync"
+  - "Document configuration changes"
+  - "Test after dependency updates"
 
 cross_references:
+  - "005.1-webpack-esm-resolution.yaml"
   - "100-dev-workflow.yaml#development_environment"
   - "500-webpack-deploy.yaml#webpack_configuration"
   - "300-testing.yaml#phase_specific_testing" 

@@ -5,15 +5,15 @@ description: "Standards for Webpack build and deployment process"
 
 security_context:
   type: "Personal Project"
-  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+  description: "This is a personal garage project with no other users or access requirements."
 
 webpack_configuration:
   entry_points:
     main: "./src/main.js"
     options:
-      - "Use single entry point for simpler apps"
       - "Use ES module syntax"
       - "Proper path resolution with import.meta.url"
+      - "Support for Vue 3 SFC"
   
   output:
     path: "./dist"
@@ -25,37 +25,28 @@ webpack_configuration:
       - "Optimize output for production"
       - "Ensure ES module compatibility"
 
-build_modes:
-  development:
-    features:
-      - "Source maps enabled"
-      - "Hot module replacement"
-      - "No minification"
-      - "Development server"
-    command: "npm start"
-  
-  production:
-    features:
-      - "Code minification"
-      - "Tree shaking"
-      - "Asset optimization"
-      - "Production source maps"
-    command: "npm run build"
-
-loaders:
-  vue:
-    loader: "vue-loader"
-    options:
-      - "Configure for Vue 3"
-      - "Enable hot reload"
-      - "Optimize template compilation"
-  
-  css:
-    loader: "css-loader"
-    options:
-      - "Enable modules"
-      - "Configure postcss"
-      - "Optimize for production"
+module_resolution:
+  rules:
+    vue:
+      loader: "vue-loader"
+      options:
+        - "Configure for Vue 3"
+        - "Enable hot reload"
+        - "Support TypeScript"
+    
+    typescript:
+      loader: "babel-loader"
+      options:
+        - "Use @babel/preset-typescript"
+        - "Set sourceType: 'unambiguous'"
+        - "Enable ESM imports"
+    
+    javascript:
+      loader: "babel-loader"
+      options:
+        - "Use @babel/preset-env"
+        - "Target modern browsers"
+        - "Preserve ES modules"
 
 plugins:
   required:
@@ -64,47 +55,48 @@ plugins:
     
     - name: "DefinePlugin"
       purpose: "Define environment variables"
-      config: |
-        new webpack.DefinePlugin({
-          __VUE_PROD_DEVTOOLS__: false
-        })
+      config:
+        __VUE_OPTIONS_API__: true
+        __VUE_PROD_DEVTOOLS__: false
+        'process.env.NODE_ENV': "from environment"
 
-optimization:
-  production:
-    - "Enable minification"
-    - "Configure code splitting"
-    - "Optimize module concatenation"
-    - "Enable tree shaking"
-  
-  caching:
-    - "Use content hashing"
-    - "Configure runtime chunks"
-    - "Optimize module IDs"
+development_server:
+  configuration:
+    hot: true
+    port: 8081
+    proxy:
+      "/api": "http://localhost:3000"
+    static:
+      directory: "./public"
 
-deployment:
-  process:
-    - "Run production build"
-    - "Verify build output"
-    - "Deploy to hosting platform"
-    - "Verify deployment"
+error_handling:
+  build_errors:
+    - "Clear error messages"
+    - "Source map support"
+    - "Module resolution errors"
+    - "Loader configuration issues"
   
-  checklist:
-    - "Environment variables set"
-    - "Production optimizations enabled"
-    - "Assets properly referenced"
-    - "Cache headers configured"
+  runtime_errors:
+    - "Hot reload failures"
+    - "Chunk loading errors"
+    - "Module evaluation errors"
 
 monitoring:
-  requirements:
-    - "Track build sizes"
-    - "Monitor performance metrics"
-    - "Check for errors"
-    - "Verify asset loading"
+  metrics:
+    - "Build sizes"
+    - "Compilation time"
+    - "Chunk counts"
+    - "Asset optimization"
 
 best_practices:
-  - "Keep webpack config modular"
-  - "Use environment variables"
-  - "Optimize for production"
+  - "Use ES modules consistently"
+  - "Enable source maps in development"
+  - "Optimize for production builds"
   - "Monitor build sizes"
   - "Regular dependency updates"
-  - "Document build process" 
+  - "Document build process"
+
+related_rules:
+  - "004-config-validation.yaml#module_system"
+  - "005.1-webpack-esm-resolution.yaml"
+  - "100-dev-workflow.yaml#development_server" 

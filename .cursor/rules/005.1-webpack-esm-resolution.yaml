@@ -1,0 +1,104 @@
+---
+name: "Webpack ESM Resolution"
+category: "000-099"
+description: "Resolution for Webpack ES modules configuration issues"
+
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements."
+
+related_rules:
+  - "004-config-validation.yaml#module_system"
+  - "500-webpack-deploy.yaml#module_resolution"
+  - "005.0-issue-resolution.yaml#resolution_patterns"
+
+webpack_esm_issue:
+  date: "2024-02-11"
+  issue:
+    type: "Build Error"
+    description: "Webpack module resolution errors with ES modules"
+    error_messages:
+      - "ReferenceError: module is not defined in ES module scope"
+      - "WARNING in DefinePlugin: Conflicting values for 'process.env.NODE_ENV'"
+      - "Module not found: Error: Can't resolve 'webpack/hot/emitter.js'"
+      - "Module build failed: Error: ENOENT: no such file or directory"
+    affected_files:
+      - "webpack.config.js"
+      - "package.json"
+      - "babel.config.js"
+      - ".babelrc.json"
+      - "tsconfig.json"
+
+  resolution:
+    changes:
+      - file: "package.json"
+        changes:
+          - "Set type: 'module'"
+          - "Add engines.node >=20"
+      
+      - file: "webpack.config.js"
+        changes:
+          - "Convert to ES modules (import/export)"
+          - "Use import.meta.url for path resolution"
+          - "Simplify babel-loader configuration"
+          - "Fix DefinePlugin environment variables"
+      
+      - file: "tsconfig.json"
+        changes:
+          - "Set module: ESNext"
+          - "Set moduleResolution: bundler"
+      
+      - file: "babel.config.js"
+        action: "Removed"
+        reason: "CommonJS config conflicts with ES modules"
+      
+      - file: ".babelrc.json"
+        action: "Created"
+        content: |
+          {
+            "presets": [
+              ["@babel/preset-env", {
+                "modules": "auto",
+                "targets": {
+                  "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+                }
+              }],
+              "@babel/preset-typescript"
+            ]
+          }
+
+    validation:
+      - "npm run validate:config"
+      - "npm run build"
+      - "npm start"
+      - "Check for DefinePlugin warnings"
+      - "Verify no module errors"
+
+  root_cause: |
+    Mixed module systems caused by:
+    1. package.json type:module with CommonJS config files
+    2. Babel configuration using deprecated .js format
+    3. Incorrect Webpack environment variable definitions
+    4. TypeScript module resolution mismatch
+
+prevention:
+  checks:
+    - "Use ES modules in all config files"
+    - "Validate with scripts/validate-config.ts"
+    - "Check Node.js version >=20"
+    - "Verify Babel config format"
+    - "Audit DefinePlugin usage"
+
+  automated_validation:
+    script: "scripts/validate-config.ts"
+    checks:
+      - "ES module syntax"
+      - "Webpack config format"
+      - "Babel config presence"
+      - "Engine requirements"
+
+best_practices:
+  - "Use .babelrc.json instead of .js configs"
+  - "Maintain single NODE_ENV definition"
+  - "Run validation before commits"
+  - "Document configuration changes" 

@@ -1,9 +1,10 @@
 import { existsSync } from 'fs';
 import { readFile } from 'fs/promises';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 interface ValidationResult {
   passed: boolean;
@@ -69,19 +70,23 @@ class ConfigValidator {
 }
 
 // Main execution
-(async () => {
-  const validator = new ConfigValidator();
-  const result = await validator.validate();
+const runValidation = async () => {
+  try {
+    const validator = new ConfigValidator();
+    const result = await validator.validate();
 
-  if (result.passed) {
-    console.log('✅ All configuration checks passed');
-    process.exit(0);
-  } else {
-    console.error('❌ Configuration validation failed:');
-    result.errors.forEach(err => console.error(`- ${err}`));
+    if (result.passed) {
+      console.log('✅ All configuration checks passed');
+      process.exit(0);
+    } else {
+      console.error('❌ Configuration validation failed:');
+      result.errors.forEach(err => console.error(`- ${err}`));
+      process.exit(1);
+    }
+  } catch (err) {
+    console.error('Validation error:', err);
     process.exit(1);
   }
-})().catch(err => {
-  console.error('Validation error:', err);
-  process.exit(1);
-}); 
+};
+
+runValidation(); 

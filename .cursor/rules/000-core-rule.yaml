@@ -55,6 +55,39 @@ current_rules:
     location: ".cursor/rules/002-phased-development.yaml"
     category: "000-099"
 
+  - name: "003-debug-validation"
+    purpose: "Standards for debugging and validating system components"
+    when_to_use: "When debugging issues or validating system state"
+    location: ".cursor/rules/003-debug-validation.yaml"
+    category: "000-099"
+
+  - name: "004-config-validation"
+    purpose: "Standards for validating project configuration"
+    when_to_use: "When modifying configuration or validating setup"
+    location: ".cursor/rules/004-config-validation.yaml"
+    category: "000-099"
+
+  - name: "005.0-issue-resolution"
+    purpose: "General issue resolution framework"
+    when_to_use: "When resolving bugs or configuration issues"
+    location: ".cursor/rules/005.0-issue-resolution.yaml"
+    category: "000-099"
+    children:
+      - "005.1-webpack-esm-resolution"
+
+  - name: "005.1-webpack-esm-resolution"
+    purpose: "Specific Webpack ES modules resolution"
+    when_to_use: "When dealing with Webpack and ES modules compatibility"
+    location: ".cursor/rules/005.1-webpack-esm-resolution.yaml"
+    category: "000-099"
+    parent: "005.0-issue-resolution"
+
+  - name: "006-issue-history"
+    purpose: "Historical record of all project issues and their resolutions"
+    when_to_use: "When tracking or reviewing project issues"
+    location: ".cursor/rules/006-issue-history.yaml"
+    category: "000-099"
+
   - name: "100-dev-workflow"
     purpose: "Define development workflow and processes"
     when_to_use: "During development activities"
@@ -73,6 +106,12 @@ current_rules:
     location: ".cursor/rules/201-ui-architecture.yaml"
     category: "200-299"
 
+  - name: "300-testing"
+    purpose: "Testing standards emphasizing real integrations over mocks"
+    when_to_use: "When writing tests or setting up test environments"
+    location: ".cursor/rules/300-testing.yaml"
+    category: "300-399"
+
   - name: "400-api-docs"
     purpose: "YNAB API integration documentation standards"
     when_to_use: "When working with YNAB API endpoints"
@@ -83,6 +122,9 @@ current_rules:
     purpose: "Webpack build and deployment configuration"
     when_to_use: "When modifying build process or deploying"
     location: ".cursor/rules/500-webpack-deploy.yaml"
+    related_rules:
+      - "004-config-validation.yaml"
+      - "005.1-webpack-esm-resolution.yaml"
     category: "500-599"
 
   - name: "600-backend-architecture"
@@ -121,12 +163,6 @@ current_rules:
     location: ".cursor/rules/900-ynab-integration.yaml"
     category: "900-999"
 
-  - name: "300-testing"
-    purpose: "Testing standards emphasizing real integrations over mocks"
-    when_to_use: "When writing tests or setting up test environments"
-    location: ".cursor/rules/300-testing.yaml"
-    category: "300-399"
-
 rule_creation_guide:
   steps:
     - "Choose an appropriate number prefix based on the category"
@@ -140,12 +176,32 @@ rule_creation_guide:
     - "Category"
 
 best_practices:
-  - "Always update this index when adding new rules"
-  - "Keep rule names descriptive and lowercase"
-  - "Include detailed comments within each rule file"
-  - "Cross-reference related rules when relevant"
-  - "Use .yaml extension for all rule files"
-  - "Follow the category numbering system strictly"
+  rule_maintenance:
+    - "Always update this index when adding new rules"
+    - "Keep rule names descriptive and lowercase"
+    - "Include detailed comments within each rule file"
+    - "Cross-reference related rules when relevant"
+    - "Use .yaml extension for all rule files"
+    - "Follow the category numbering system strictly"
+
+  issue_tracking:
+    - "Document all encountered issues in 005.0-issue-resolution.yaml"
+    - "Include exact error messages and steps to reproduce"
+    - "Link issue resolutions to relevant configuration rules"
+    - "Update validation scripts based on new issues"
+    - "Maintain a clear history of configuration changes"
+    - "Document specific issue resolutions in dedicated rule files"
+    - "Maintain brief summaries in 006-issue-history.yaml"
+    - "Link between history and detailed resolution rules"
+    - "Update issue metrics when adding new entries"
+    - "Categorize issues by type and component"
+
+  validation:
+    - "Run configuration validation before commits"
+    - "Update validation scripts when adding new requirements"
+    - "Test configuration changes in all environments"
+    - "Document validation failures in issue resolution"
+    - "Keep validation requirements in sync across rules"
 
 project_state:
   framework: "Vue.js 3"

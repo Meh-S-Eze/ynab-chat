@@ -1,0 +1,68 @@
+---
+name: "Issue History"
+category: "000-099"
+description: "Historical record of all project issues and their resolutions"
+
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements."
+
+issue_history:
+  webpack_esm_2024_02_11:
+    summary: "Webpack module resolution errors due to mixed CommonJS and ES modules"
+    resolution: "Migrated all config files to ES modules format"
+    details: "005-webpack-esm-resolution.yaml"
+    impact: "Build process"
+    status: "Resolved"
+
+  babel_config_2024_02_11:
+    summary: "Babel configuration format incompatibility with ES modules"
+    resolution: "Migrated from babel.config.js to .babelrc.json"
+    details: "005-webpack-esm-resolution.yaml"
+    impact: "Build process"
+    status: "Resolved"
+
+template:
+  new_issue:
+    date_id: "YYYY_MM_DD"
+    summary: "Brief description of the issue"
+    resolution: "Brief description of how it was resolved"
+    details: "Link to detailed resolution rule if applicable"
+    impact: "Area of project affected"
+    status: "Resolved/In Progress/Investigating"
+
+organization:
+  by_type:
+    build:
+      - "webpack_esm_2024_02_11"
+      - "babel_config_2024_02_11"
+    runtime: []
+    security: []
+    performance: []
+    
+  by_component:
+    webpack: ["webpack_esm_2024_02_11"]
+    babel: ["babel_config_2024_02_11"]
+    vue: []
+    database: []
+    api: []
+
+metrics:
+  issue_counts:
+    total: 2
+    by_status:
+      resolved: 2
+      in_progress: 0
+      investigating: 0
+    by_type:
+      build: 2
+      runtime: 0
+      security: 0
+      performance: 0
+
+best_practices:
+  - "Keep summaries brief but descriptive"
+  - "Always link to detailed resolution if available"
+  - "Update metrics when adding new issues"
+  - "Maintain organization by type and component"
+  - "Include impact assessment for each issue" 

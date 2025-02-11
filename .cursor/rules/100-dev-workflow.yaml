@@ -5,15 +5,21 @@ description: "Defines development processes and standards"
 
 security_context:
   type: "Personal Project"
-  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+  description: "This is a personal garage project with no other users or access requirements."
 
 development_environment:
   setup:
     - "Install Node.js 20.x using nvm"
     - "Clone repository"
     - "Run npm install"
-    - "Copy .env.example to .env (if exists)"
-    - "Configure YNAB API credentials"
+    - "Copy .env.example to .env"
+    - "Configure environment variables"
+  
+  validation:
+    - "Run npm run validate:config"
+    - "Verify Node.js version"
+    - "Check module resolution"
+    - "Test build process"
 
 development_server:
   commands:
@@ -23,45 +29,19 @@ development_server:
     - "Hot module replacement"
     - "Development mode with source maps"
     - "Automatic browser refresh"
+    - "API proxy configuration"
 
-git_workflow:
-  branching:
-    main: "Production-ready code"
-    development: "Integration branch for features"
-    feature: "Feature-specific branches (feature/*)"
-    hotfix: "Emergency fixes (hotfix/*)"
-  
-  commit_standards:
-    format: "<type>(<scope>): <description>"
-    types:
-      - "feat: New features"
-      - "fix: Bug fixes"
-      - "docs: Documentation changes"
-      - "style: Code style changes"
-      - "refactor: Code refactoring"
-      - "test: Test changes"
-      - "chore: Build/dependency changes"
-    
-    rules:
-      - "Use present tense in commit messages"
-      - "Keep commits focused and atomic"
-      - "Reference issues in commit messages"
-      - "Include BREAKING CHANGE in footer if applicable"
-
-code_review:
-  process:
-    - "Create pull request with description"
-    - "Link related issues"
-    - "Request review from team members"
-    - "Address review comments"
-    - "Squash and merge when approved"
-  
-  checklist:
-    - "Code follows style guide"
-    - "Tests are included"
-    - "Documentation is updated"
-    - "No unnecessary dependencies added"
-    - "Performance impact considered"
+module_system:
+  type: "ES Modules"
+  standards:
+    - "Use .js extension with type: module"
+    - "Import/export syntax only"
+    - "Path resolution with import.meta.url"
+    - "No require() statements"
+  validation:
+    - "TypeScript ESM configuration"
+    - "Webpack ESM support"
+    - "Babel module preservation"
 
 dependency_management:
   updating:
@@ -70,22 +50,28 @@ dependency_management:
     - "Test thoroughly after updates"
     - "Keep package-lock.json in sync"
   
-  security:
-    - "Run security audits (npm audit)"
-    - "Fix security vulnerabilities promptly"
-    - "Review dependency licenses"
+  validation:
+    - "Run config validation"
+    - "Check build process"
+    - "Test module resolution"
+    - "Verify type definitions"
 
-troubleshooting:
-  steps:
-    - "Check console for errors"
-    - "Verify environment variables"
-    - "Check dependency versions"
-    - "Review recent changes"
-    - "Test in clean environment"
+error_handling:
+  build_errors:
+    - "Check module resolution"
+    - "Verify loader configuration"
+    - "Test import statements"
+    - "Validate TypeScript setup"
+  
+  runtime_errors:
+    - "Monitor hot reload"
+    - "Check chunk loading"
+    - "Debug module evaluation"
 
 best_practices:
-  - "Write descriptive commit messages"
-  - "Keep dependencies up to date"
-  - "Document significant changes"
-  - "Use feature flags for major changes"
-  - "Follow semantic versioning" 
+  - "Use ES modules consistently"
+  - "Run validation before commits"
+  - "Keep dependencies updated"
+  - "Document configuration changes"
+  - "Test after dependency updates"
+  - "Monitor build process" 
