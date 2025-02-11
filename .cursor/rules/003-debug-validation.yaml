@@ -1,0 +1,185 @@
+---
+name: "Debug and Validation Strategy"
+category: "000-099"
+description: "Standards for debugging and validating system components"
+
+security_context:
+  type: "Personal Project"
+  description: "This is a personal garage project with no other users or access requirements. Security measures against data leaks and external threats are not needed."
+
+validation_components:
+  database:
+    connection:
+      validation_steps:
+        - "Verify database connection pool is functioning"
+        - "Check connection retry mechanism"
+        - "Validate SSL connection to Neon DB"
+        - "Test connection pool limits"
+      commands:
+        - name: "Test Connection"
+          command: "curl http://localhost:3000/api/health"
+          expected_result: "{ status: 'healthy', checks: { database: 'connected' } }"
+        - name: "Pool Status"
+          command: "SELECT count(*) FROM pg_stat_activity WHERE application_name LIKE '%ynab-sync%'"
+          expected_result: "Should match configured pool size"
+
+  sync_service:
+    server_knowledge:
+      validation_steps:
+        - "Verify server knowledge is properly stored in database"
+        - "Check knowledge updates after transactions fetch"
+        - "Validate knowledge persistence across restarts"
+      queries:
+        - name: "Check Knowledge Storage"
+          query: "SELECT * FROM server_knowledge ORDER BY last_sync_time DESC LIMIT 1"
+          validation: "Should have valid transaction_knowledge and category_knowledge"
+        - name: "Verify Updates"
+          query: "SELECT COUNT(*) FROM server_knowledge WHERE last_sync_time > NOW() - INTERVAL '1 hour'"
+          validation: "Should increase after sync operations"
+
+    sync_history:
+      validation_steps:
+        - "Check sync history entries are created"
+        - "Verify status transitions (pending -> in_progress -> completed/failed)"
+        - "Validate error messages are properly stored"
+      queries:
+        - name: "Recent Syncs"
+          query: "SELECT status, COUNT(*) FROM sync_history GROUP BY status"
+          validation: "Should show distribution of sync statuses"
+        - name: "Failed Syncs"
+          query: "SELECT * FROM sync_history WHERE status = 'failed' ORDER BY started_at DESC LIMIT 5"
+          validation: "Should contain detailed error messages"
+
+    pending_items:
+      validation_steps:
+        - "Verify items are properly queued"
+        - "Check retry mechanism for failed items"
+        - "Validate cleanup of processed items"
+      queries:
+        - name: "Pending Queue"
+          query: "SELECT item_type, status, COUNT(*) FROM pending_items GROUP BY item_type, status"
+          validation: "Should show current queue state"
+        - name: "Retry Status"
+          query: "SELECT * FROM pending_items WHERE retry_count > 0 ORDER BY updated_at DESC LIMIT 5"
+          validation: "Should show retry patterns"
+
+debug_logging:
+  log_levels:
+    error:
+      when_to_use: "For failures that need immediate attention"
+      required_fields:
+        - "Error message"
+        - "Stack trace"
+        - "Context data"
+    warn:
+      when_to_use: "For concerning but non-critical issues"
+      required_fields:
+        - "Warning message"
+        - "Relevant context"
+    info:
+      when_to_use: "For tracking normal operation flow"
+      required_fields:
+        - "Operation description"
+        - "Key data points"
+    debug:
+      when_to_use: "For detailed troubleshooting"
+      required_fields:
+        - "Function entry/exit"
+        - "Variable states"
+        - "Decision points"
+
+  log_patterns:
+    sync_operation:
+      start: "Starting sync operation for budget {budgetId}"
+      progress: "Processed {count} items, {failed} failures"
+      completion: "Sync completed: {success} items processed, {failed} failures"
+      error: "Sync failed: {error}"
+
+    ynab_api:
+      request: "YNAB API request: {method} {endpoint}"
+      response: "YNAB API response: {status}"
+      error: "YNAB API error: {status} - {message}"
+
+validation_scripts:
+  database:
+    filename: "scripts/validate-db.ts"
+    purpose: "Validate database schema and connections"
+    checks:
+      - "Table existence and structure"
+      - "Index presence"
+      - "Trigger functionality"
+      - "Connection pool health"
+
+  sync:
+    filename: "scripts/validate-sync.ts"
+    purpose: "Validate sync functionality"
+    checks:
+      - "Server knowledge tracking"
+      - "Sync history recording"
+      - "Pending items processing"
+      - "Error handling and retries"
+
+monitoring_queries:
+  performance:
+    - name: "Slow Syncs"
+      query: |
+        SELECT id, started_at, completed_at, 
+               EXTRACT(EPOCH FROM (completed_at - started_at)) as duration
+        FROM sync_history
+        WHERE completed_at IS NOT NULL
+        ORDER BY duration DESC
+        LIMIT 5
+    - name: "Failed Items Analysis"
+      query: |
+        SELECT error_message, COUNT(*) as count
+        FROM pending_items
+        WHERE status = 'failed'
+        GROUP BY error_message
+        ORDER BY count DESC
+        LIMIT 10
+
+  health:
+    - name: "Connection Pool Status"
+      query: |
+        SELECT state, count(*) 
+        FROM pg_stat_activity 
+        WHERE application_name LIKE '%ynab-sync%'
+        GROUP BY state
+    - name: "Recent Error Rate"
+      query: |
+        SELECT 
+          date_trunc('hour', started_at) as hour,
+          COUNT(*) FILTER (WHERE status = 'failed') as failures,
+          COUNT(*) as total
+        FROM sync_history
+        WHERE started_at > NOW() - INTERVAL '24 hours'
+        GROUP BY hour
+        ORDER BY hour DESC
+
+debug_commands:
+  database:
+    - name: "Check Connection Pool"
+      command: "SELECT * FROM pg_stat_activity WHERE application_name LIKE '%ynab-sync%'"
+    - name: "View Recent Syncs"
+      command: "SELECT * FROM sync_history ORDER BY started_at DESC LIMIT 10"
+    - name: "Check Failed Items"
+      command: "SELECT * FROM pending_items WHERE status = 'failed'"
+    - name: "View Server Knowledge"
+      command: "SELECT * FROM server_knowledge"
+
+  api:
+    - name: "Health Check"
+      command: "curl http://localhost:3000/api/health"
+    - name: "Trigger Sync"
+      command: "curl -X POST http://localhost:3000/api/sync/trigger"
+    - name: "Get Sync Status"
+      command: "curl http://localhost:3000/api/sync/status"
+
+best_practices:
+  - "Always check health endpoint before debugging other issues"
+  - "Review logs from highest to lowest severity"
+  - "Validate database state before investigating sync issues"
+  - "Check for failed items before triggering new syncs"
+  - "Monitor connection pool health regularly"
+  - "Review error patterns in sync history"
+  - "Validate server knowledge consistency" 
