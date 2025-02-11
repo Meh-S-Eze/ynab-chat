@@ -9,7 +9,7 @@ security_context:
 
 development_environment:
   setup:
-    - "Install Node.js (latest LTS version)"
+    - "Install Node.js 20.x using nvm"
     - "Clone repository"
     - "Run npm install"
     - "Copy .env.example to .env (if exists)"

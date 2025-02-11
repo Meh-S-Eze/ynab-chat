@@ -12,7 +12,8 @@ webpack_configuration:
     main: "./src/main.js"
     options:
       - "Use single entry point for simpler apps"
-      - "Configure multiple entry points for code splitting"
+      - "Use ES module syntax"
+      - "Proper path resolution with import.meta.url"
   
   output:
     path: "./dist"
@@ -22,6 +23,7 @@ webpack_configuration:
       - "Use content hashing for cache busting"
       - "Configure public path for production"
       - "Optimize output for production"
+      - "Ensure ES module compatibility"
 
 build_modes:
   development:

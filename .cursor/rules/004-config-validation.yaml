@@ -1,0 +1,61 @@
+---
+name: "Configuration Validation"
+category: "000-099"
+description: "Standards for preventing module system and environment conflicts"
+
+prevention_measures:
+  module_system:
+    rule: "All configuration files must use ES module syntax"
+    enforcement:
+      - "Use .js extension with package.json 'type': 'module'"
+      - "Convert legacy CommonJS files to .cjs when necessary"
+      - "Use import/export syntax exclusively in .js files"
+  
+  node_version:
+    requirement: "Node.js >=20.x"
+    enforcement:
+      - "Engine constraint in package.json"
+      - "nvmrc file with version specification"
+      - "CI pipeline version checks"
+
+  webpack_config:
+    standards:
+      - "Use import.meta.url for path resolution"
+      - "Define process.env.NODE_ENV once in config"
+      - "Explicit extension resolution order"
+    validation_script: "npm run validate:config"
+
+validation_scripts:
+  config_check: 
+    filename: "scripts/validate-config.ts"
+    checks:
+      - "ES module usage in .js files"
+      - "Node.js version compatibility"
+      - "Webpack alias consistency"
+      - "Babel preset configuration"
+
+required_updates:
+  package.json:
+    additions:
+      - name: "engine-strict"
+        value: "true"
+      - name: "engines"
+        value: |
+          {
+            "node": ">=20.0.0",
+            "npm": ">=10.0.0"
+          }
+    scripts:
+      - "validate:config": "ts-node scripts/validate-config.ts"
+
+best_practices:
+  - "Always use fileURLToPath for directory resolution in ES modules"
+  - "Run validation scripts before committing"
+  - "Verify Node version in CI pipelines"
+  - "Use .babelrc.json instead of .js config files"
+  - "Maintain single source of truth for NODE_ENV"
+
+cross_references:
+  - "100-dev-workflow.yaml#development_environment"
+  - "500-webpack-deploy.yaml#webpack_configuration"
+  - "300-testing.yaml#phase_specific_testing" 

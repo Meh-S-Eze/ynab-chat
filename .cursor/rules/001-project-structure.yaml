@@ -55,6 +55,7 @@ configuration_files:
   required:
     - "package.json: Project dependencies and scripts"
     - "webpack.config.js: Build configuration"
+    - ".babelrc.json: Babel configuration"
     - ".env: Environment variables (gitignored)"
     - ".gitignore: Git ignore patterns"
     - ".editorconfig: Editor configuration"

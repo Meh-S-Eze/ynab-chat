@@ -132,16 +132,19 @@ test_environments:
     database: "Dedicated test database on Neon"
     ynab: "Development API with test budget"
     openai: "Test API key with GPT-3.5"
+    node: "Node.js 20.x"
   
   staging:
     database: "Staging database on Neon"
     ynab: "Staging API with production-like data"
     openai: "Staging API key with GPT-4"
+    node: "Node.js 20.x"
   
   ci_cd:
     database: "Ephemeral test database"
     ynab: "CI/CD specific test budget"
     openai: "CI/CD API key with GPT-3.5"
+    node: "Node.js 20.x"
 
 test_types:
   unit:
